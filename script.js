@@ -37,12 +37,36 @@ rollDice.addEventListener('click', function () {
 		currentScore += randomRoll;
 		setScore(activePlayer, currentScore);
 	} else {
-		currentScore = 0;
-		setScore(activePlayer, currentScore);
-		activePlayer = activePlayer === 0 ? 1 : 0; //Switching active player
+		swithPlayer();
 	}
 });
 
-function setScore(active, currScore) {
-	document.getElementById(`current--${active}`).textContent = currentScore;
-}
+/*Hold score functionality*/
+holdScore.addEventListener('click', function () {
+	scores[activePlayer] += currentScore;
+	document.getElementById(`score--${activePlayer}`).textContent =
+		scores[activePlayer];
+
+	if (scores[activePlayer] >= 10) {
+		document
+			.querySelector(`.player--${activePlayer}`)
+			.classList.add('player--winner');
+		document
+			.querySelector(`.player--${activePlayer}`)
+			.classList.remove('player--active');
+	} else {
+		swithPlayer();
+	}
+});
+
+const setScore = function (active, currScore) {
+	document.getElementById(`current--${active}`).textContent = currScore;
+};
+
+const swithPlayer = function () {
+	currentScore = 0;
+	setScore(activePlayer, currentScore);
+	activePlayer = activePlayer === 0 ? 1 : 0; //Switching active player
+	player1.classList.toggle('player--active');
+	player2.classList.toggle('player--active');
+};
