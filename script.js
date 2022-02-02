@@ -21,12 +21,49 @@ const holdScore = document.querySelector('.btn--hold');
 //Dice
 const diceElement = document.querySelector('.dice');
 
-//Init
-let playing = true;
-let currentScore = 0;
-let activePlayer = 0;
-const scores = [0, 0];
-diceElement.classList.add('hidden');
+//Init variables
+let playing, currentScore, activePlayer, scores;
+
+/**
+ * Initialize game
+ */
+const init = function () {
+	playing = true;
+	currentScore = 0;
+	activePlayer = 0;
+	scores = [0, 0];
+
+	player1Score.textContent = 0;
+	player2Score.textContent = 0;
+	player1.classList.remove('player--winner');
+	player1.classList.add('player--active');
+	player2.classList.remove('player--winner');
+	player2.classList.remove('player--active');
+	diceElement.classList.add('hidden');
+};
+
+/**
+ * Set current score
+ * @param {*} active
+ * @param {*} currScore
+ */
+const setScore = function (active, currScore) {
+	document.getElementById(`current--${active}`).textContent = currScore;
+};
+
+/**
+ * Switch active player
+ */
+const swithPlayer = function () {
+	currentScore = 0;
+	setScore(activePlayer, currentScore);
+	activePlayer = activePlayer === 0 ? 1 : 0;
+	player1.classList.toggle('player--active');
+	player2.classList.toggle('player--active');
+};
+
+//Load game first time
+init();
 
 /*Roll dice functionality*/
 rollDice.addEventListener('click', function () {
@@ -51,7 +88,7 @@ holdScore.addEventListener('click', function () {
 		document.getElementById(`score--${activePlayer}`).textContent =
 			scores[activePlayer];
 
-		if (scores[activePlayer] >= 10) {
+		if (scores[activePlayer] >= 100) {
 			document
 				.querySelector(`.player--${activePlayer}`)
 				.classList.add('player--winner');
@@ -65,22 +102,5 @@ holdScore.addEventListener('click', function () {
 	}
 });
 
-/**
- * Set current score
- * @param {*} active
- * @param {*} currScore
- */
-const setScore = function (active, currScore) {
-	document.getElementById(`current--${active}`).textContent = currScore;
-};
-
-/**
- * Switch active player
- */
-const swithPlayer = function () {
-	currentScore = 0;
-	setScore(activePlayer, currentScore);
-	activePlayer = activePlayer === 0 ? 1 : 0;
-	player1.classList.toggle('player--active');
-	player2.classList.toggle('player--active');
-};
+/*Handle new game functionality */
+newGame.addEventListener('click', init);
