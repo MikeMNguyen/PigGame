@@ -23,6 +23,8 @@ const diceElement = document.querySelector('.dice');
 
 //Init
 let currentScore = 0;
+let activePlayer = 0;
+const scores = [0, 0];
 diceElement.classList.add('hidden');
 
 /*Roll dice functionality*/
@@ -33,10 +35,14 @@ rollDice.addEventListener('click', function () {
 
 	if (randomRoll != 1) {
 		currentScore += randomRoll;
-		currentScore1.textContent = currentScore;
+		setScore(activePlayer, currentScore);
 	} else {
 		currentScore = 0;
-		player1.classList.remove('player--active');
-		player2.classList.add('player--active');
+		setScore(activePlayer, currentScore);
+		activePlayer = activePlayer === 0 ? 1 : 0; //Switching active player
 	}
 });
+
+function setScore(active, currScore) {
+	document.getElementById(`current--${active}`).textContent = currentScore;
+}
