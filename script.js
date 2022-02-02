@@ -33,8 +33,11 @@ const init = function () {
 	activePlayer = 0;
 	scores = [0, 0];
 
+	currentScore1.textContent = 0;
+	currentScore2.textContent = 0;
 	player1Score.textContent = 0;
 	player2Score.textContent = 0;
+
 	player1.classList.remove('player--winner');
 	player1.classList.add('player--active');
 	player2.classList.remove('player--winner');
